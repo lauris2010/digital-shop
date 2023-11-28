@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import path from 'path'
-import payload from 'payload'
+import payload, { Payload } from 'payload'
 import type { InitOptions } from 'payload/config'
 
 interface Args {
@@ -44,4 +44,5 @@ export const getPayloadClient = async ({initOptions} : Args = {}) => {
     throw err
   }
 
+  return cached.client
 }

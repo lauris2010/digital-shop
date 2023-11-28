@@ -13,6 +13,7 @@ import {
   AuthCredentialsValidator,
   TAuthCredentialsValidator,
 } from "@/lib/validators/account-credentials-validator";
+import { trpc } from "@/trpc/client";
 
 const Page = () => {
   const {
@@ -23,8 +24,10 @@ const Page = () => {
     resolver: zodResolver(AuthCredentialsValidator),
   });
 
-  const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
-    //send data to server
+  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({});
+
+  const onSubmit = ({ email, password }: TAuthCredentialsValidator | any) => {
+    mutate({ email, password });
   };
 
   return (
@@ -46,7 +49,7 @@ const Page = () => {
             </Link>
           </div>
           <div className="grid gap-6">
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="grid gap-2">
                 <div className="grid gap-1 py-2">
                   <Label htmlFor="email">Email</Label>
@@ -61,6 +64,7 @@ const Page = () => {
                 <div className="grid gap-1 py-2">
                   <Label htmlFor="password">Password</Label>
                   <Input
+                    type="password"
                     {...register("password")}
                     className={cn({
                       "focus-visible:ring-red-500": errors.password,
