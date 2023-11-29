@@ -14,6 +14,9 @@ import {
   TAuthCredentialsValidator,
 } from "@/lib/validators/account-credentials-validator";
 import { trpc } from "@/trpc/client";
+import { toast } from "sonner";
+import { ZodError } from "zod";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const {
@@ -24,7 +27,25 @@ const Page = () => {
     resolver: zodResolver(AuthCredentialsValidator),
   });
 
-  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({});
+  const router = useRouter();
+
+  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({
+    onError: (err) => {
+      if (err.data?.code === "CONFLICT") {
+        toast.error("This email is already is in use. Sing in instead?");
+        return;
+      }
+      if (err instanceof ZodError) {
+        toast.error(err.issues[0].message);
+        return;
+      }
+      toast.error("Something went wrong. Please try again.");
+    },
+    onSuccess: ({ sentToEmail }) => {
+      toast.success(`Verification email sent to ${sentToEmail}`);
+      router.push("/verify-email?to" + sentToEmail);
+    },
+  });
 
   const onSubmit = ({ email, password }: TAuthCredentialsValidator | any) => {
     mutate({ email, password });
@@ -60,6 +81,12 @@ const Page = () => {
                     })}
                     placeholder="Enter your Email"
                   />
+                  {errors?.email && (
+                    <p className="text-sm text-red-500">
+                      {/* @ts-ignore */}
+                      {errors?.email.message}
+                    </p>
+                  )}
                 </div>
                 <div className="grid gap-1 py-2">
                   <Label htmlFor="password">Password</Label>
@@ -71,6 +98,12 @@ const Page = () => {
                     })}
                     placeholder="Password"
                   />
+                  {errors?.password && (
+                    <p className="text-sm text-red-500">
+                      {/* @ts-ignore */}
+                      {errors?.password.message}
+                    </p>
+                  )}
                 </div>
                 <Button>Sign up</Button>
               </div>
