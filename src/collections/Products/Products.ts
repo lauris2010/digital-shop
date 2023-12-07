@@ -71,6 +71,10 @@ export const Products: CollectionConfig = {
             value: "pending",
           },
           {
+            label: 'Approved',
+            value: 'approved',
+          },
+          {
             label: 'Denied',
             value: 'denied',
           },

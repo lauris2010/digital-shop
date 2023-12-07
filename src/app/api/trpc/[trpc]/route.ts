@@ -6,10 +6,10 @@ const handler = (req: Request) => {
     endpoint: "api/trpc",
     req,
     router: appRouter,
-    // @ts-expect-error
+   // @ts-ignore
     createContext: () => ({
     })
   })
 }
 
-export {handler as GET, handler as POST}
+export {handler as GET, handler as POST} 
