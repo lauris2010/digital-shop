@@ -56,9 +56,9 @@ const Page = async ({ params }: PageProps) => {
   return (
     <MaxWidthWrapper className="bg-white">
       <div className="bg-white">
-        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
+        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-16 lg:px-8">
           {/* PRODUCT DETAILS */}
-          <div className="lg:max-w-lg lg:self-end">
+          <div className="lg:max-w-lg lg:self-center">
             <ol className="flex items-center space-x-2">
               {BREADCRUMBS.map((breadcrumb, i) => (
                 <li key={breadcrumb.href}>
@@ -111,7 +111,7 @@ const Page = async ({ params }: PageProps) => {
             </section>
           </div>
           {/*product images*/}
-          <div className="mt-1- lg:col-start-2 lg:row-start-2 lg:mt-0 lg:self-center">
+          <div className="mt-1- lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
             <div className="mt-10 aspect-square rounded-lg">
               <ImageSlider urls={validUrls} />
             </div>
@@ -119,7 +119,7 @@ const Page = async ({ params }: PageProps) => {
           <div className="mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
             <div>
               <div className="mt-10">
-                <AddToCartButton />
+                <AddToCartButton product={product} />
               </div>
               <div className="mt-6 text-center">
                 <div className="group inline-flex text-sm text-medium">
