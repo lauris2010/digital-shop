@@ -22,7 +22,7 @@ const Cart = () => {
   const [mounted, setMounted] = useState<boolean>(false);
   const { items } = useCart();
   const itemCount = items.length;
-  const fee = 3.5;
+  const fee = 1;
 
   const cartTotal = items.reduce(
     (total, { product }) => total + product.price,
