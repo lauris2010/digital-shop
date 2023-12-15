@@ -1,6 +1,6 @@
+import * as React from "react";
 import {
   Body,
-  Button,
   Container,
   Head,
   Hr,
@@ -9,6 +9,8 @@ import {
   Preview,
   Section,
   Text,
+  render,
+  Button,
 } from "@react-email/components";
 
 interface EmailTemplateProps {
@@ -59,6 +61,9 @@ export const EmailTemplate = ({
     </Html>
   );
 };
+
+export const PrimaryActionEmailHtml = (props: EmailTemplateProps) =>
+  render(<EmailTemplate {...props} />, { pretty: true });
 
 const main = {
   backgroundColor: "#ffffff",
